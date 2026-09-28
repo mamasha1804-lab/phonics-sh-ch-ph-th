@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5b3ab6">
+  <title>Волшебные дверцы — SH CH TH PH</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="audio.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="game">
+    <header><span class="brand">Учимся с Ларисой Коротаевой</span><button id="sound-toggle" class="sound" type="button" aria-pressed="true">🔊 Звук включён</button></header>
+    <section id="start" class="screen hero" aria-labelledby="game-title">
+      <div class="sparkles" aria-hidden="true">✦ ✧ ✦</div>
+      <h1 id="game-title">Волшебные дверцы</h1>
+      <p>За каждой дверцей прячутся английские слова. Послушай звук, открой дверь и познакомься со всеми словами!</p>
+      <button class="primary" id="start-button" type="button">Начать игру ✨</button>
+    </section>
+    <section id="doors" class="screen" hidden aria-labelledby="doors-title">
+      <h2 id="doors-title">Выбери волшебную дверцу</h2>
+      <p class="hint">Нажми на дверь и послушай её звук.</p>
+      <div id="door-grid" class="door-grid"></div>
+      <button class="back" id="doors-home" type="button">← На главную</button>
+    </section>
+    <section id="room" class="screen" hidden aria-labelledby="room-title">
+      <button class="back" id="room-back" type="button">← К дверцам</button>
+      <div class="room-heading"><span id="room-symbol" class="symbol"></span><div><h2 id="room-title"></h2><p id="room-sound"></p></div></div>
+      <p class="hint">Нажми на слово, чтобы услышать его. Прослушай все три слова.</p>
+      <div id="word-grid" class="word-grid"></div>
+      <p id="progress" class="progress" role="status" aria-live="polite"></p>
+      <button class="primary" id="finish-button" type="button" hidden>Вернуться к дверцам ✨</button>
+    </section>
+  </main>
+</body>
+</html>
