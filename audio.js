@@ -19,27 +19,36 @@ window.gameAudio = (() => {
     current = null;
     if ('speechSynthesis' in window) speechSynthesis.cancel();
   }
-  function play(file, fallback) {
+  function play(file, fallback, onComplete = () => {}) {
     stop();
     if (!enabled) return;
     const token = generation;
+    let settled = false;
+    const complete = () => {
+      if (settled || token !== generation) return;
+      settled = true;
+      onComplete();
+    };
     const speak = () => {
-      if (token !== generation || !fallback || !('speechSynthesis' in window)) return;
+      if (token !== generation || settled) return;
+      if (!fallback || !('speechSynthesis' in window)) return;
       const utterance = new SpeechSynthesisUtterance(fallback);
       utterance.lang = 'en-GB';
       utterance.rate = 0.82;
       if (voice) utterance.voice = voice;
+      utterance.onend = complete;
       speechSynthesis.speak(utterance);
     };
     const audio = new Audio(file);
     current = audio;
+    audio.addEventListener('ended', complete, { once: true });
     audio.addEventListener('error', speak, { once: true });
     audio.play().catch(speak);
   }
   return {
     stop,
     sound: group => play(`assets/audio/${group.id}/sound.mp3`, group.say),
-    word: (group, word) => play(`assets/audio/${group.id}/${word.text}.mp3`, word.text),
+    word: (group, word, onComplete) => play(`assets/audio/${group.id}/${word.text}.mp3`, word.text, onComplete),
     door: () => play('assets/audio/door-open.mp3', ''),
     toggle() { enabled = !enabled; if (!enabled) stop(); return enabled; }
   };
