@@ -39,10 +39,11 @@ function openRoom(group) {
     button.className = 'word-card';
     button.innerHTML = `<span class="word-icon" aria-hidden="true">${word.icon}</span><strong>${word.text}</strong><span class="ipa">${word.ipa}</span><span class="translation">${word.ru}</span><span class="listen">🔊 Послушать</span>`;
     button.addEventListener('click', () => {
-      heard.add(index);
-      button.classList.add('heard');
-      gameAudio.word(group, word);
-      updateProgress();
+      gameAudio.word(group, word, () => {
+        heard.add(index);
+        button.classList.add('heard');
+        updateProgress();
+      });
     });
     $('word-grid').append(button);
   });
